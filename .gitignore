@@ -1,0 +1,13 @@
+*
+!.gitignore
+
+!src
+!src/*
+
+!example_env
+!example_env/*
+
+!tcl
+!tcl/*
+
+!README.md
