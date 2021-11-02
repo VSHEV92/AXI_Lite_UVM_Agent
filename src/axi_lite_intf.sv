@@ -73,7 +73,7 @@ interface axi_lite_if
     /*
      * реализация протокола ready-valid
      */
-    task automatic handshake(ref input logic in, out, input int unsigned delay);
+    task automatic handshake(ref logic in, out, input int unsigned delay);
         // начальная задержка до установки собственной готовности
         repeat(delay)  
             @(posedge aclk);

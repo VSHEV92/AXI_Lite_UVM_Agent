@@ -14,7 +14,6 @@ class axi_lite_sequence_config extends uvm_object;
     int unsigned max_clocks_before_resp = 5; // максимальное число тактов до установки ответа на запись
     int unsigned min_clocks_before_resp = 0; // минимальное число тактов до установки ответа на запись
     
-    int unsigned max_addr_value = 255;  // максимальное значение адреса
-    int unsigned min_tdata = 0;    // минимальное значение tdata
-
+    int unsigned max_addr_value = 128;  // максимальное значение адреса
+    
 endclass

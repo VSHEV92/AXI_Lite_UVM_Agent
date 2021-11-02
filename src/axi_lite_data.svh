@@ -25,7 +25,7 @@ class axi_lite_data extends uvm_sequence_item;
 
     // ограничения на рандомизацию
     constraint addr_const {
-        addr <= max_addr_value;
+        addr <= max_addr_value - 4;
     }
     constraint clock_before_addr_const {
        clocks_before_addr inside{[min_clocks_before_addr:max_clocks_before_addr]};
