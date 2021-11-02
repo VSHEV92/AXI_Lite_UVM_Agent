@@ -126,34 +126,43 @@ interface axi_lite_if
     endtask
 
     /* 
-     * ожидание записи в slave
+     * ожидание транзакции в slave
      */ 
-    task slave_wait_write (output logic [31:0] addr, data, output logic [3:0] strb, output logic [2:0] prot, input logic [1:0] resp, input int unsigned addr_delay, data_delay, resp_delay);
+    task slave_wait_addr (output logic [31:0] addr, output logic [2:0] prot, output logic transaction_type, input int unsigned addr_delay);
         fork
-            begin // получаем адрес
+            begin // получаем адрес записи
                 handshake(awvalid, awready, addr_delay);
                 addr <= awaddr;
                 prot <= awprot;
+                transaction_type = 1'b1;
             end
-            begin // получаем данные 
-                handshake(wvalid, wready, data_delay);
-                data <= wdata;
-                strb <= wstrb;
+            begin // получаем адрес чтения
+                handshake(arvalid, arready, addr_delay);
+                addr <= araddr;
+                prot <= arprot;
+                transaction_type = 1'b0;
             end
         join
-        // отправляем ответ о записи
-        bresp <= resp
-        handshake(bready, bvalid, resp_delay);
+
+        disable fork;
+
+        awready <= 1'b0;
+        arready <= 1'b0;
+
     endtask
 
     /* 
-     * ожидание чтения из slave
+     * ожидание данных для записи в slave и ответ о записи
      */ 
-    task slave_wait_read (output logic [31:0] addr, output logic [2:0] prot, input int unsigned addr_delay);
-        // получаем адрес
-        handshake(arvalid, arready, addr_delay);
-        addr <= awaddr;
-        prot <= awprot;
+    task slave_wait_write_data (output logic [31:0] data, output logic [3:0] strb, input logic [1:0] resp, input int unsigned data_delay, resp_delay);
+        // получаем данные
+        handshake(wvalid, wready, data_delay);
+        data <= wdata;
+        strb <= wstrb;
+
+        // отправляем ответ о записи
+        bresp <= resp
+        handshake(bready, bvalid, resp_delay);
     endtask
 
     /* 
