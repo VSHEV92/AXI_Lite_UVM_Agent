@@ -8,7 +8,7 @@ class axi_lite_wr_sequence extends axi_lite_sequence;
     
 endclass
 
-task axi_lite_sequence::body();
+task axi_lite_wr_sequence::body();
     repeat(trans_numb) begin
         axi_lite_data_h = axi_lite_data::type_id::create("axi_lite_data_h");
         start_item(axi_lite_data_h);

@@ -32,8 +32,8 @@ task axi_lite_monitor::run_phase (uvm_phase phase);
         end
         begin // мониторим интерфейс чтения
             monitor_read();
-        join
-    end
+        end
+    join 
 endtask
 
 // мониторинг интерфейса записи
@@ -43,11 +43,11 @@ task axi_lite_monitor::monitor_write();
         fork
             begin // мониторим адрес
                 get_addr(wtrans.addr, 1'b1);
-                `uvm_info("Get write transaction address %0h", wtrans.addr)
+                `uvm_info(get_type_name(), $sformatf("Get write transaction address %0h", wtrans.addr), UVM_LOW)
             end
             begin // мониторим данные
                 get_data(wtrans.data, wtrans.strb, 1'b1);
-                `uvm_info("Get write data %0h with strob %0b", wtrans.data, wtrans.strb)
+                `uvm_info(get_type_name(), $sformatf("Get write data %0h with strob %0b", wtrans.data, wtrans.strb), UVM_LOW)
             end
         join
         analysis_port_h.write(wtrans);
@@ -61,11 +61,11 @@ task axi_lite_monitor::monitor_read();
         fork
             begin // мониторим адрес
                 get_addr(rtrans.addr, 1'b0);
-                `uvm_info("Get read transaction address %0h", rtrans.addr)
+                `uvm_info(get_type_name(), $sformatf("Get read transaction address %0h", rtrans.addr), UVM_LOW)
             end
             begin // мониторим данные
                 get_data(rtrans.data, rtrans.strb, 1'b0);
-                `uvm_info("Get read data %0h", rtrans.data)
+                `uvm_info(get_type_name(), $sformatf("Get read data %0h", rtrans.data), UVM_LOW)
             end
         join
         analysis_port_h.write(rtrans);

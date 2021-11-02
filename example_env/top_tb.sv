@@ -1,6 +1,6 @@
 `timescale 1ns/1ps
 
-module top_tb #(string TEST_NAME) ();
+module top_tb #(string TEST_NAME = "base_test") ();
 
     import uvm_pkg::*;
     import test_pkg::*; 
@@ -38,8 +38,8 @@ mem_bd_wrapper dut (
 );
 
     initial begin
-        uvm_config_db #(virtual axi_lite_if)::set(null, "uvm_test_top.*", "axis_lite", axis_lite);
-        uvm_config_db #(virtual aresetn_if)::set(null, "uvm_test_top.*", "aresetn", aresetn);
+        uvm_config_db #(virtual axi_lite_if)::set(null, "", "axi_lite", axi_lite);
+        uvm_config_db #(virtual aresetn_if)::set(null, "", "aresetn", aresetn);
         run_test(TEST_NAME);
     end
 

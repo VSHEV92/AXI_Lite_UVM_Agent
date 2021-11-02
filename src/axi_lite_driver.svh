@@ -22,15 +22,15 @@ task axi_lite_driver_master::run_phase (uvm_phase phase);
 
         if(trans.transaction_type) begin // транзакция записи
             intf.master_write(trans.addr, trans.data, trans.strb, 3'b010, resp, trans.clocks_before_addr, trans.clocks_before_data, trans.clocks_before_resp);
-            if(!resp) 
-                `uvm_error("BAD RESP", "Get bad response %0b", resp)
+            if(resp) 
+                `uvm_error(get_type_name(), $sformatf("Get bad response %0b", resp))
         end 
         else begin // транзакция чтения 
-            intf.master_read(trans.addr, data, 3'b010, resp, trans.clocks_before_addr, trans.clocks_before_data,);
-            if(!resp) 
-                `uvm_error("BAD RESP", "Get bad response %0b", resp)
+            intf.master_read(trans.addr, data, 3'b010, resp, trans.clocks_before_addr, trans.clocks_before_data);
+            if(resp) 
+                `uvm_error(get_type_name(), $sformatf("Get bad response %0b", resp))
                 else
-            `uvm_info("Read data %0h from address %0h", data, trans.addr)
+            `uvm_info(get_type_name(), $sformatf("Read data %0h from address %0h", data, trans.addr), UVM_LOW)
         end
 
         seq_item_port.item_done();
@@ -66,15 +66,15 @@ task axi_lite_driver_slave::run_phase (uvm_phase phase);
         seq_item_port.get_next_item(trans);
         
         // ожидание адреса чтения или записи
-        slave_wait_addr(trans.addr, prot, transaction_type, trans.addr_delay);
+        intf.slave_wait_addr(trans.addr, prot, transaction_type, trans.clocks_before_addr);
         
         // транзакция записи
         if (transaction_type) begin
-            `uvm_info("Get write transaction to address %0h", trans.addr)
-            slave_wait_write_data(trans.data, trans.strb, 2'b00, trans.data_delay, trans.resp_delay);  
+            `uvm_info(get_type_name(), $sformatf("Get write transaction to address %0h", trans.addr), UVM_LOW)
+            intf.slave_wait_write_data(trans.data, trans.strb, 2'b00, trans.clocks_before_data, trans.clocks_before_resp);  
             
             // создание новой записи в массиве, если такой элемент отсутствует
-            if (slave_data.exist(trans.addr))
+            if (slave_data.exists(trans.addr))
                 slave_data[trans.addr] = '0;
             // обновление данных в массиве   
 
@@ -82,18 +82,18 @@ task axi_lite_driver_slave::run_phase (uvm_phase phase);
                 if (trans.strb[i])
                     slave_data[trans.addr][i*8 +: 8] = trans.data[i*8 +: 8];
 
-            `uvm_info("Write %0h with strobe %0b to address %0h", trans.data, trans.strb, trans.addr)        
+            `uvm_info(get_type_name(), $sformatf("Write %0h with strobe %0b to address %0h", trans.data, trans.strb, trans.addr), UVM_LOW)        
         end
 
         // транзакция чтения
         if (!transaction_type) begin
-            `uvm_info("Get read transaction from address %0h", trans.addr)
+            `uvm_info(get_type_name(), $sformatf("Get read transaction from address %0h", trans.addr), UVM_LOW)
             // создание новой записи в массиве, если такой элемент отсутствует
-            if (slave_data.exist(trans.addr))
+            if (slave_data.exists(trans.addr))
                 slave_data[trans.addr] = '0;
 
-            slave_response_read(slave_data[trans.addr], 2'b00, trans.data_delay);
-            `uvm_info("Read %0h from address %0h", trans.data, trans.addr)       
+            intf.slave_response_read(slave_data[trans.addr], 2'b00, trans.clocks_before_data);
+            `uvm_info(get_type_name(), $sformatf("Read %0h from address %0h", trans.data, trans.addr), UVM_LOW)     
         end
 
         seq_item_port.item_done();

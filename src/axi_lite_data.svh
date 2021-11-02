@@ -51,7 +51,7 @@ function string axi_lite_data::convert2string();
 endfunction
 
 function bit axi_lite_data::do_compare(uvm_object rhs, uvm_comparer comparer);
-    axis_data RHS;
+    axi_lite_data RHS;
     bit same;
     same = super.do_compare(rhs, comparer);
     $cast(RHS, rhs);

@@ -8,8 +8,7 @@ class test_env extends uvm_env;
     extern function void connect_phase(uvm_phase phase);
 
     virtual axi_lite_if axi_lite;
-    virtual aresetn_if aresetn;
-
+    
     axi_lite_agent axi_lite_agent_h;
     
     //test_scoreboard #(TDATA_BYTES_IN) test_scoreboard_h;
@@ -19,11 +18,8 @@ endclass
 function void test_env::build_phase(uvm_phase phase);
     
     // получение интерфейсов из базы данных
-    if (!uvm_config_db #(virtual axi_lite_if)::get(this, "", "axis_lite", axis_lite))
+    if (!uvm_config_db #(virtual axi_lite_if)::get(this, "", "axi_lite", axi_lite))
         `uvm_fatal("GET_DB", "Can not get axi_lite interface")
-
-    if (!uvm_config_db #(virtual aresetn_if)::get(this, "", "aresetn", aresetn))
-        `uvm_fatal("GET_DB", "Can not get aresetn interface")
        
     // создание scoreboard
     //test_scoreboard_h = test_scoreboard #(TDATA_BYTES_IN)::type_id::create("test_scoreboard_h", this);

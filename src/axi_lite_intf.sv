@@ -78,12 +78,12 @@ interface axi_lite_if
         repeat(delay)  
             @(posedge aclk);
         // устанавливаем собственную готовность
-        out <= 1'b1; 
+        #0 out = 1'b1; 
         // ожидаем готовности от другой стороны
         forever begin 
             @(posedge aclk);
             if (in) begin  
-                out <= 1'b0;
+                #0 out = 1'b0;
                 return;
             end
         end
@@ -100,9 +100,9 @@ interface axi_lite_if
                 handshake(awready, awvalid, addr_delay);
             end
             begin // устанавливаем данные 
-                wdata <= addr;
+                wdata <= data;
                 wstrb <= strb;
-                handshake(aready, avalid, data_delay);
+                handshake(wready, wvalid, data_delay);
             end
         join
         // получаем ответ о записи
@@ -122,7 +122,7 @@ interface axi_lite_if
         // получаем данные
         handshake(rvalid, rready, data_delay);
         resp <= rresp;
-        data <= rdata
+        data <= rdata;
     endtask
 
     /* 
@@ -161,7 +161,7 @@ interface axi_lite_if
         strb <= wstrb;
 
         // отправляем ответ о записи
-        bresp <= resp
+        bresp <= resp;
         handshake(bready, bvalid, resp_delay);
     endtask
 

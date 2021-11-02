@@ -9,6 +9,5 @@ package test_pkg;
     `include "test_env.svh"
     
     `include "base_test.svh"
-    `include "rand_data_test.svh"
-
+    
 endpackage
