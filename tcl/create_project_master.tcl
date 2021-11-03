@@ -23,7 +23,7 @@ add_files [glob -nocomplain -- ./src/*.sv]
 add_files [glob -nocomplain -- ./example_env/*.svh]
 add_files ./example_env/test_pkg.sv
 add_files ./example_env/reset_intf.sv
-add_files -fileset sim_1 ./example_env/top_tb.sv
+add_files -fileset sim_1 ./example_env/master_tb.sv
 
 # -------------------------------------------------------------------------------
 # создание block design для проверки axi lite master

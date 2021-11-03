@@ -51,6 +51,7 @@ task axi_lite_monitor::monitor_write();
                 `uvm_info(get_type_name(), $sformatf("Get write data %0h with strob %4b", wtrans.data, wtrans.strb), UVM_LOW)
             end
         join
+        
         analysis_port_h.write(wtrans);
     end
 endtask
@@ -70,6 +71,7 @@ task axi_lite_monitor::monitor_read();
                 `uvm_info(get_type_name(), $sformatf("Get read data %0h", rtrans.data), UVM_LOW)
             end
         join
+        
         analysis_port_h.write(rtrans);
     end
 endtask

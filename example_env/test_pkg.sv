@@ -7,8 +7,10 @@ package test_pkg;
 
     `include "test_scoreboard.svh"
     `include "master_test_env.svh"
+    `include "slave_test_env.svh"
     
     `include "base_test.svh"
     `include "master_test.svh"
+    `include "slave_test.svh"
     
 endpackage

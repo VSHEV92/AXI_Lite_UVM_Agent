@@ -1,0 +1,26 @@
+0.7
+2020.2
+Jun 10 2021
+19:45:28
+/home/vovan/Documents/GitHub/AXI_Lite_UVM_Agent/axi_lite_slave/axi_lite_slave.sim/sim_1/behav/xsim/glbl.v,1623370582,verilog,,,,glbl,,uvm,,,,,,
+/home/vovan/Documents/GitHub/AXI_Lite_UVM_Agent/example_env/base_test.svh,1635921537,verilog,,,,,,,,,,,,
+/home/vovan/Documents/GitHub/AXI_Lite_UVM_Agent/example_env/master_test.svh,1635930626,verilog,,,,,,,,,,,,
+/home/vovan/Documents/GitHub/AXI_Lite_UVM_Agent/example_env/master_test_env.svh,1635926854,verilog,,,,,,,,,,,,
+/home/vovan/Documents/GitHub/AXI_Lite_UVM_Agent/example_env/reset_intf.sv,1635848940,systemVerilog,,/home/vovan/Documents/GitHub/AXI_Lite_UVM_Agent/example_env/test_pkg.sv,,aresetn_if,,uvm,../../../../../example_env;../../../../../src,,,,,
+/home/vovan/Documents/GitHub/AXI_Lite_UVM_Agent/example_env/slave_tb.sv,1635930348,systemVerilog,,,,slave_tb,,uvm,../../../../../example_env;../../../../../src,,,,,
+/home/vovan/Documents/GitHub/AXI_Lite_UVM_Agent/example_env/slave_test.svh,1635934031,verilog,,,,,,,,,,,,
+/home/vovan/Documents/GitHub/AXI_Lite_UVM_Agent/example_env/slave_test_env.svh,1635929752,verilog,,,,,,,,,,,,
+/home/vovan/Documents/GitHub/AXI_Lite_UVM_Agent/example_env/test_pkg.sv,1635929440,systemVerilog,/home/vovan/Documents/GitHub/AXI_Lite_UVM_Agent/example_env/slave_tb.sv,/home/vovan/Documents/GitHub/AXI_Lite_UVM_Agent/example_env/slave_tb.sv,/opt/Xilinx/Vivado/2021.1/data/xsim/system_verilog/uvm_include/uvm_macros.svh;/home/vovan/Documents/GitHub/AXI_Lite_UVM_Agent/src/axi_lite_include.svh;/home/vovan/Documents/GitHub/AXI_Lite_UVM_Agent/example_env/test_scoreboard.svh;/home/vovan/Documents/GitHub/AXI_Lite_UVM_Agent/example_env/master_test_env.svh;/home/vovan/Documents/GitHub/AXI_Lite_UVM_Agent/example_env/slave_test_env.svh;/home/vovan/Documents/GitHub/AXI_Lite_UVM_Agent/example_env/base_test.svh;/home/vovan/Documents/GitHub/AXI_Lite_UVM_Agent/example_env/master_test.svh;/home/vovan/Documents/GitHub/AXI_Lite_UVM_Agent/example_env/slave_test.svh,test_pkg,,uvm,../../../../../example_env;../../../../../src,,,,,
+/home/vovan/Documents/GitHub/AXI_Lite_UVM_Agent/example_env/test_scoreboard.svh,1635935325,verilog,,,,,,,,,,,,
+/home/vovan/Documents/GitHub/AXI_Lite_UVM_Agent/src/axi_lite_agent.svh,1635856037,verilog,,,,,,,,,,,,
+/home/vovan/Documents/GitHub/AXI_Lite_UVM_Agent/src/axi_lite_data.svh,1635932353,verilog,,,,,,,,,,,,
+/home/vovan/Documents/GitHub/AXI_Lite_UVM_Agent/src/axi_lite_driver.svh,1635923177,verilog,,,,,,,,,,,,
+/home/vovan/Documents/GitHub/AXI_Lite_UVM_Agent/src/axi_lite_include.svh,1635854204,verilog,,,/home/vovan/Documents/GitHub/AXI_Lite_UVM_Agent/src/axi_lite_data.svh;/home/vovan/Documents/GitHub/AXI_Lite_UVM_Agent/src/axi_lite_sequence_config.svh;/home/vovan/Documents/GitHub/AXI_Lite_UVM_Agent/src/axi_lite_sequence.svh;/home/vovan/Documents/GitHub/AXI_Lite_UVM_Agent/src/axi_lite_wr_sequence.svh;/home/vovan/Documents/GitHub/AXI_Lite_UVM_Agent/src/axi_lite_rd_sequence.svh;/home/vovan/Documents/GitHub/AXI_Lite_UVM_Agent/src/axi_lite_sequencer.svh;/home/vovan/Documents/GitHub/AXI_Lite_UVM_Agent/src/axi_lite_driver.svh;/home/vovan/Documents/GitHub/AXI_Lite_UVM_Agent/src/axi_lite_monitor.svh;/home/vovan/Documents/GitHub/AXI_Lite_UVM_Agent/src/axi_lite_agent.svh,,,,,,,,,
+/home/vovan/Documents/GitHub/AXI_Lite_UVM_Agent/src/axi_lite_intf.sv,1635931297,systemVerilog,,/home/vovan/Documents/GitHub/AXI_Lite_UVM_Agent/example_env/reset_intf.sv,,axi_lite_if,,uvm,../../../../../example_env;../../../../../src,,,,,
+/home/vovan/Documents/GitHub/AXI_Lite_UVM_Agent/src/axi_lite_monitor.svh,1635934646,verilog,,,,,,,,,,,,
+/home/vovan/Documents/GitHub/AXI_Lite_UVM_Agent/src/axi_lite_rd_sequence.svh,1635854119,verilog,,,,,,,,,,,,
+/home/vovan/Documents/GitHub/AXI_Lite_UVM_Agent/src/axi_lite_sequence.svh,1635926106,verilog,,,,,,,,,,,,
+/home/vovan/Documents/GitHub/AXI_Lite_UVM_Agent/src/axi_lite_sequence_config.svh,1635926078,verilog,,,,,,,,,,,,
+/home/vovan/Documents/GitHub/AXI_Lite_UVM_Agent/src/axi_lite_sequencer.svh,1635839270,verilog,,,,,,,,,,,,
+/home/vovan/Documents/GitHub/AXI_Lite_UVM_Agent/src/axi_lite_wr_sequence.svh,1635854110,verilog,,,,,,,,,,,,
+/opt/Xilinx/Vivado/2021.1/data/xsim/system_verilog/uvm_include/uvm_macros.svh,1623370567,verilog,,,,,,,,,,,,

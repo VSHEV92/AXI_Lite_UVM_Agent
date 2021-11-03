@@ -40,16 +40,28 @@ class axi_lite_data extends uvm_sequence_item;
 
     extern function string convert2string();
     extern function bit do_compare(uvm_object rhs, uvm_comparer comparer);
+    extern function void do_copy(uvm_object rhs);
 
 endclass
 
 // ------------------------------------------------------------------------------
 function string axi_lite_data::convert2string();
     if (transaction_type)
-        return $sformatf("type = Write, data = %0h, \t addr = %0h, \t strb = %4b \t", data, addr, strb);
+        return $sformatf("type = Write, data = %0h, addr = %0h, strb = %4b", data, addr, strb);
     else
-        return $sformatf("type = Read, data = %0h, \t addr = %0h, \t strb = %4b \t", data, addr, strb);   
+        return $sformatf("type = Read, data = %0h, addr = %0h, strb = %4b", data, addr, strb);   
 endfunction
+
+function void axi_lite_data::do_copy(uvm_object rhs);
+    axi_lite_data RHS;
+    super.do_copy(rhs);
+    $cast(RHS, rhs);
+    data = RHS.data;
+    addr = RHS.addr;
+    strb = RHS.strb;
+    transaction_type = RHS.transaction_type;  
+endfunction
+
 
 function bit axi_lite_data::do_compare(uvm_object rhs, uvm_comparer comparer);
     axi_lite_data RHS;

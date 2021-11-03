@@ -20,7 +20,7 @@ function void master_test::build_phase(uvm_phase phase);
     
     super.build_phase(phase);
 
-    // параметры теств
+    // параметры теста
     axi_lite_seqc_config.trans_numb = 500;
     axi_lite_seqc_config.max_addr_value = 128;
     axi_lite_seqc_config.min_addr_value = 0;

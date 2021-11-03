@@ -132,17 +132,17 @@ interface axi_lite_if
         fork
             begin // получаем адрес записи
                 handshake(awvalid, awready, addr_delay);
-                addr <= awaddr;
-                prot <= awprot;
+                addr = awaddr;
+                prot = awprot;
                 transaction_type = 1'b1;
             end
             begin // получаем адрес чтения
                 handshake(arvalid, arready, addr_delay);
-                addr <= araddr;
-                prot <= arprot;
+                addr = araddr;
+                prot = arprot;
                 transaction_type = 1'b0;
             end
-        join
+        join_any
 
         disable fork;
 
