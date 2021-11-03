@@ -29,4 +29,5 @@ function void axi_lite_sequence::config_item();
     axi_lite_data_h.max_clocks_before_resp = axi_lite_seqc_config.max_clocks_before_resp;
     axi_lite_data_h.min_clocks_before_resp = axi_lite_seqc_config.min_clocks_before_resp;
     axi_lite_data_h.max_addr_value = axi_lite_seqc_config.max_addr_value;
+    axi_lite_data_h.min_addr_value = axi_lite_seqc_config.min_addr_value;
 endfunction

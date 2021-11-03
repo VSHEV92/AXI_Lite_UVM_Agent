@@ -48,7 +48,7 @@ task axi_lite_monitor::monitor_write();
             end
             begin // мониторим данные
                 get_data(wtrans.data, wtrans.strb, wtrans.transaction_type);
-                `uvm_info(get_type_name(), $sformatf("Get write data %0h with strob %0b", wtrans.data, wtrans.strb), UVM_LOW)
+                `uvm_info(get_type_name(), $sformatf("Get write data %0h with strob %4b", wtrans.data, wtrans.strb), UVM_LOW)
             end
         join
         analysis_port_h.write(wtrans);

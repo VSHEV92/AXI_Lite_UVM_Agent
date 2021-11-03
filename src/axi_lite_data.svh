@@ -13,6 +13,7 @@ class axi_lite_data extends uvm_sequence_item;
     int unsigned min_clocks_before_resp;
 
     int unsigned max_addr_value;
+    int unsigned min_addr_value;
 
     rand bit [31:0] data;
     rand bit [31:0] addr;
@@ -25,7 +26,7 @@ class axi_lite_data extends uvm_sequence_item;
 
     // ограничения на рандомизацию
     constraint addr_const {
-        addr <= max_addr_value - 4;
+        addr >= min_addr_value && addr <= (max_addr_value - 4) && (addr % 4) == 0;
     }
     constraint clock_before_addr_const {
        clocks_before_addr inside{[min_clocks_before_addr:max_clocks_before_addr]};

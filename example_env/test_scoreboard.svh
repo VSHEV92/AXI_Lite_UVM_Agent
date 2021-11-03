@@ -8,6 +8,7 @@ class test_scoreboard extends uvm_scoreboard;
     endfunction
 
     extern function void build_phase (uvm_phase phase);
+    extern function void final_phase (uvm_phase phase);
 
     extern virtual function void write_master (axi_lite_data axi_lite_data_h);
     extern virtual function void write_slave (axi_lite_data axi_lite_data_h);
@@ -20,12 +21,21 @@ class test_scoreboard extends uvm_scoreboard;
     typedef bit [31:0] slave_data_t; 
     slave_data_t slave_data [slave_data_t]; // ассоциативный массив для хранения данных
 
+    bit test_result = 1'b1;
+
 endclass
 
 // -------------------------------------------------------------------
 function void test_scoreboard::build_phase (uvm_phase phase);
     analysis_port_master = new("analysis_port_master", this);
     analysis_port_slave = new("analysis_port_slave", this);
+endfunction
+
+function void test_scoreboard::final_phase (uvm_phase phase);
+    if (test_result)
+        `uvm_info("RESULT", "TEST RESULT: PASS", UVM_LOW)
+    else
+        `uvm_info("RESULT", "TEST RESULT: FAIL", UVM_LOW)
 endfunction
 
 function void test_scoreboard::write_master (axi_lite_data axi_lite_data_h);
@@ -40,11 +50,11 @@ function void test_scoreboard::write_master (axi_lite_data axi_lite_data_h);
             slave_data[axi_lite_data_h.addr] = '0;
         // обновление данных в массиве   
 
-        for (int i = 0; i < 4; i++)
-            if (axi_lite_data_h.strb[i])
+        for (int i = 0; i < 4; i++) 
+            if (axi_lite_data_h.strb[i]) 
                 slave_data[axi_lite_data_h.addr][i*8 +: 8] = axi_lite_data_h.data[i*8 +: 8];
-
-        `uvm_info(get_type_name(), $sformatf("Gold data in address %0h is %0h", axi_lite_data_h.addr, axi_lite_data_h.data), UVM_LOW)        
+        
+        `uvm_info(get_type_name(), $sformatf("Gold data in address %0h is %0h", axi_lite_data_h.addr, slave_data[axi_lite_data_h.addr]), UVM_LOW)        
     end
 
     // если получена транзакция чтения, то сравниваем полученные данные
@@ -56,8 +66,10 @@ function void test_scoreboard::write_master (axi_lite_data axi_lite_data_h);
             slave_data[axi_lite_data_h.addr] = '0;
 
         // сравнение данных
-        if (slave_data[axi_lite_data_h.addr] != axi_lite_data_h.data)
+        if (slave_data[axi_lite_data_h.addr] != axi_lite_data_h.data) begin
             `uvm_error(get_type_name(), $sformatf("Data mismatch! Addr:%0h, Read: %0h, Gold: %0h", axi_lite_data_h.addr, axi_lite_data_h.data, slave_data[axi_lite_data_h.addr]))    
+            test_result = 1'b0;
+        end
         else
             `uvm_info("PASS", axi_lite_data_h.convert2string(), UVM_LOW)
     end
@@ -74,11 +86,13 @@ function void test_scoreboard::write_slave (axi_lite_data axi_lite_data_h);
     // сравниваем транзакции slave и master
     if (axi_lite_data_h.compare(master_trans))
         `uvm_info("PASS", axi_lite_data_h.convert2string(), UVM_LOW)
-    else
+    else begin
         `uvm_error(
             get_type_name(), {"Transaction mismatch! \n",
                               "Slave: ", axi_lite_data_h.convert2string(), "\n",
                               "Master: ", master_trans.convert2string()}
         )
+        test_result = 1'b0;
+    end    
 
 endfunction

@@ -20,6 +20,11 @@ function void master_test::build_phase(uvm_phase phase);
     
     super.build_phase(phase);
 
+    // параметры теств
+    axi_lite_seqc_config.trans_numb = 500;
+    axi_lite_seqc_config.max_addr_value = 128;
+    axi_lite_seqc_config.min_addr_value = 0;
+
     test_env_h = master_test_env::type_id::create("test_env_h", this);   
 
     if (!uvm_config_db #(virtual aresetn_if)::get(this, "", "aresetn", aresetn))
