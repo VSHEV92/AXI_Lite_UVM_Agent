@@ -45,9 +45,9 @@ endclass
 // ------------------------------------------------------------------------------
 function string axi_lite_data::convert2string();
     if (transaction_type)
-        return $sformatf("type = Write, data = %0h, \t addr = %0h, \t strb = %0b \t", data, addr, strb);
+        return $sformatf("type = Write, data = %0h, \t addr = %0h, \t strb = %4b \t", data, addr, strb);
     else
-        return $sformatf("type = Read, data = %0h, \t addr = %0h, \t strb = %0b \t", data, addr, strb);   
+        return $sformatf("type = Read, data = %0h, \t addr = %0h, \t strb = %4b \t", data, addr, strb);   
 endfunction
 
 function bit axi_lite_data::do_compare(uvm_object rhs, uvm_comparer comparer);

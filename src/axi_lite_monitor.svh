@@ -40,13 +40,14 @@ endtask
 task axi_lite_monitor::monitor_write();
     forever begin
         wtrans = axi_lite_data::type_id::create("wtrans");
+        wtrans.transaction_type = 1'b1;
         fork
             begin // мониторим адрес
-                get_addr(wtrans.addr, 1'b1);
+                get_addr(wtrans.addr, wtrans.transaction_type);
                 `uvm_info(get_type_name(), $sformatf("Get write transaction address %0h", wtrans.addr), UVM_LOW)
             end
             begin // мониторим данные
-                get_data(wtrans.data, wtrans.strb, 1'b1);
+                get_data(wtrans.data, wtrans.strb, wtrans.transaction_type);
                 `uvm_info(get_type_name(), $sformatf("Get write data %0h with strob %0b", wtrans.data, wtrans.strb), UVM_LOW)
             end
         join
@@ -58,13 +59,14 @@ endtask
 task axi_lite_monitor::monitor_read();
     forever begin
         rtrans = axi_lite_data::type_id::create("rtrans");
+        rtrans.transaction_type = 1'b0;
         fork
             begin // мониторим адрес
-                get_addr(rtrans.addr, 1'b0);
+                get_addr(rtrans.addr, rtrans.transaction_type);
                 `uvm_info(get_type_name(), $sformatf("Get read transaction address %0h", rtrans.addr), UVM_LOW)
             end
             begin // мониторим данные
-                get_data(rtrans.data, rtrans.strb, 1'b0);
+                get_data(rtrans.data, rtrans.strb, rtrans.transaction_type);
                 `uvm_info(get_type_name(), $sformatf("Get read data %0h", rtrans.data), UVM_LOW)
             end
         join

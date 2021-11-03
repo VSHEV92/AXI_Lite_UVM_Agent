@@ -6,8 +6,9 @@ package test_pkg;
     `include "../src/axi_lite_include.svh"
 
     `include "test_scoreboard.svh"
-    `include "test_env.svh"
+    `include "master_test_env.svh"
     
     `include "base_test.svh"
+    `include "master_test.svh"
     
 endpackage

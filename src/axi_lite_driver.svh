@@ -23,14 +23,16 @@ task axi_lite_driver_master::run_phase (uvm_phase phase);
         if(trans.transaction_type) begin // транзакция записи
             intf.master_write(trans.addr, trans.data, trans.strb, 3'b010, resp, trans.clocks_before_addr, trans.clocks_before_data, trans.clocks_before_resp);
             if(resp) 
-                `uvm_error(get_type_name(), $sformatf("Get bad response %0b", resp))
+                `uvm_error(get_type_name(), $sformatf("Get bad response %2b", resp))
+            else
+                `uvm_info(get_type_name(), $sformatf("Write %0h with strobe %4b to address %0h", trans.data, trans.strb, trans.addr), UVM_LOW)
         end 
         else begin // транзакция чтения 
             intf.master_read(trans.addr, data, 3'b010, resp, trans.clocks_before_addr, trans.clocks_before_data);
             if(resp) 
-                `uvm_error(get_type_name(), $sformatf("Get bad response %0b", resp))
-                else
-            `uvm_info(get_type_name(), $sformatf("Read data %0h from address %0h", data, trans.addr), UVM_LOW)
+                `uvm_error(get_type_name(), $sformatf("Get bad response %2b", resp))
+            else
+                `uvm_info(get_type_name(), $sformatf("Read data %0h from address %0h", data, trans.addr), UVM_LOW)
         end
 
         seq_item_port.item_done();
@@ -74,7 +76,7 @@ task axi_lite_driver_slave::run_phase (uvm_phase phase);
             intf.slave_wait_write_data(trans.data, trans.strb, 2'b00, trans.clocks_before_data, trans.clocks_before_resp);  
             
             // создание новой записи в массиве, если такой элемент отсутствует
-            if (slave_data.exists(trans.addr))
+            if (!slave_data.exists(trans.addr))
                 slave_data[trans.addr] = '0;
             // обновление данных в массиве   
 
@@ -82,14 +84,14 @@ task axi_lite_driver_slave::run_phase (uvm_phase phase);
                 if (trans.strb[i])
                     slave_data[trans.addr][i*8 +: 8] = trans.data[i*8 +: 8];
 
-            `uvm_info(get_type_name(), $sformatf("Write %0h with strobe %0b to address %0h", trans.data, trans.strb, trans.addr), UVM_LOW)        
+            `uvm_info(get_type_name(), $sformatf("Write %0h with strobe %4b to address %0h", trans.data, trans.strb, trans.addr), UVM_LOW)        
         end
 
         // транзакция чтения
         if (!transaction_type) begin
             `uvm_info(get_type_name(), $sformatf("Get read transaction from address %0h", trans.addr), UVM_LOW)
             // создание новой записи в массиве, если такой элемент отсутствует
-            if (slave_data.exists(trans.addr))
+            if (!slave_data.exists(trans.addr))
                 slave_data[trans.addr] = '0;
 
             intf.slave_response_read(slave_data[trans.addr], 2'b00, trans.clocks_before_data);

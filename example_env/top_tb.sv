@@ -1,6 +1,6 @@
 `timescale 1ns/1ps
 
-module top_tb #(string TEST_NAME = "base_test") ();
+module top_tb #(string TEST_NAME) ();
 
     import uvm_pkg::*;
     import test_pkg::*; 

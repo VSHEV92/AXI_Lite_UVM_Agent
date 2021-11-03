@@ -1,5 +1,5 @@
-class test_env extends uvm_env;
-    `uvm_component_utils(test_env)
+class master_test_env extends uvm_env;
+    `uvm_component_utils(master_test_env)
     function new (string name = "", uvm_component parent = null);
         super.new(name, parent);
     endfunction
@@ -11,18 +11,18 @@ class test_env extends uvm_env;
     
     axi_lite_agent axi_lite_agent_h;
     
-    //test_scoreboard #(TDATA_BYTES_IN) test_scoreboard_h;
+    test_scoreboard test_scoreboard_h;
 
 endclass
 
-function void test_env::build_phase(uvm_phase phase);
+function void master_test_env::build_phase(uvm_phase phase);
     
     // получение интерфейсов из базы данных
     if (!uvm_config_db #(virtual axi_lite_if)::get(this, "", "axi_lite", axi_lite))
         `uvm_fatal("GET_DB", "Can not get axi_lite interface")
        
     // создание scoreboard
-    //test_scoreboard_h = test_scoreboard #(TDATA_BYTES_IN)::type_id::create("test_scoreboard_h", this);
+    test_scoreboard_h = test_scoreboard::type_id::create("test_scoreboard_h", this);
 
     // создание агентов
     axi_lite_agent_h = axi_lite_agent::type_id::create("axi_lite_agent_h", this);
@@ -35,10 +35,6 @@ function void test_env::build_phase(uvm_phase phase);
     
 endfunction
 
-function void test_env::connect_phase(uvm_phase phase);
-
-  //  axis_agent_in_1.axis_monitor_h.analysis_port_h.connect(test_scoreboard_h.analysis_port_in_1);
-  //  axis_agent_in_2.axis_monitor_h.analysis_port_h.connect(test_scoreboard_h.analysis_port_in_2);
-  //  axis_agent_out.axis_monitor_h.analysis_port_h.connect(test_scoreboard_h.analysis_port_out);
-
+function void master_test_env::connect_phase(uvm_phase phase);
+    axi_lite_agent_h.axi_lite_monitor_h.analysis_port_h.connect(test_scoreboard_h.analysis_port_master);
 endfunction
