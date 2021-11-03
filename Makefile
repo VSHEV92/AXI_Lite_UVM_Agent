@@ -1,5 +1,6 @@
 all:
 	make test_master | tee master_log.txt
+	make test_slave | tee slave_log.txt
 	make check
 
 test_master: axi_lite_master
@@ -16,7 +17,7 @@ axi_lite_slave:
 
 check:
 	cat master_log.txt | grep "TEST RESULT"
-	#cat slave_log.txt | grep "TEST RESULT"
+	cat slave_log.txt | grep "TEST RESULT"
 
 clean:
 	rm -Rf axi_lite_master axi_lite_slave .Xil

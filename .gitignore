@@ -1,4 +1,5 @@
 axi_lite_master
+axi_lite_slave
 *.jou 
 *.log
 *.txt

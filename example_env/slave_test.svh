@@ -21,13 +21,13 @@ function void slave_test::build_phase(uvm_phase phase);
     super.build_phase(phase);
 
     axi_lite_seqc_config_slave = axi_lite_sequence_config::type_id::create("axi_lite_seqc_config_slave");
-    axi_lite_seqc_config_slave.trans_numb = 50;
+    axi_lite_seqc_config_slave.trans_numb = 1000;
 
     axi_lite_seqc_slave = axi_lite_wr_sequence::type_id::create("axi_lite_seqc_slave", this);
     axi_lite_seqc_slave.axi_lite_seqc_config = axi_lite_seqc_config_slave;
 
     // параметры теста
-    axi_lite_seqc_config.trans_numb = 25;
+    axi_lite_seqc_config.trans_numb = 500;
     axi_lite_seqc_config.max_addr_value = 128;
     axi_lite_seqc_config.min_addr_value = 0;
 
