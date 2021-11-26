@@ -8,7 +8,6 @@ module master_tb #(string TEST_NAME) ();
 
     bit aclk = 0;
     axi_lite_if axi_lite (aclk);
-    aresetn_if aresetn (aclk);
     
     always 
         #2 aclk = ~aclk;
@@ -34,12 +33,11 @@ mem_bd_wrapper dut (
     .S_AXI_0_wstrb   (axi_lite.wstrb),
     .S_AXI_0_wvalid  (axi_lite.wvalid),
     .s_axi_aclk_0    (aclk),
-    .s_axi_aresetn_0 (aresetn.aresetn) 
+    .s_axi_aresetn_0 (axi_lite.aresetn) 
 );
 
     initial begin
         uvm_config_db #(virtual axi_lite_if)::set(null, "", "axi_lite", axi_lite);
-        uvm_config_db #(virtual aresetn_if)::set(null, "", "aresetn", aresetn);
         run_test(TEST_NAME);
     end
 

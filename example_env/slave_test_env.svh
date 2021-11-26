@@ -19,25 +19,25 @@ endclass
 
 function void slave_test_env::build_phase(uvm_phase phase);
     
-    // получение интерфейсов из базы данных
+    // getting interfaces from a database
     if (!uvm_config_db #(virtual axi_lite_if)::get(this, "", "axi_lite_master", axi_lite_master))
         `uvm_fatal("GET_DB", "Can not get axi_lite_master interface")
 
     if (!uvm_config_db #(virtual axi_lite_if)::get(this, "", "axi_lite_slave", axi_lite_slave))
         `uvm_fatal("GET_DB", "Can not get axi_lite_slave interface")    
        
-    // создание scoreboard
+    // create scoreboard
     test_scoreboard_h = test_scoreboard::type_id::create("test_scoreboard_h", this);
 
-    // создание агентов
+    // create agents
     axi_lite_agent_master = axi_lite_agent::type_id::create("axi_lite_agent_master", this);
     axi_lite_agent_slave = axi_lite_agent::type_id::create("axi_lite_agent_slave", this);
     
-    // выбор типов агентов
+    // set agent's types
     axi_lite_agent_master.agent_type = MASTER;
     axi_lite_agent_slave.agent_type = SLAVE;
     
-    // соединение интерфейсов
+    // connect interfaces
     axi_lite_agent_master.axi_lite_if_h = this.axi_lite_master;
     axi_lite_agent_slave.axi_lite_if_h = this.axi_lite_slave;
     

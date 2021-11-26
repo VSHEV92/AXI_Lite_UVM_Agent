@@ -22,7 +22,6 @@ add_files [glob -nocomplain -- ./src/*.sv]
 # добавляем файлы тестового окружения к проекту
 add_files [glob -nocomplain -- ./example_env/*.svh]
 add_files ./example_env/test_pkg.sv
-add_files ./example_env/reset_intf.sv
 add_files -fileset sim_1 ./example_env/slave_tb.sv
 
 # подключение uvm библиотек к проекту

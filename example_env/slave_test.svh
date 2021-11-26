@@ -26,7 +26,7 @@ function void slave_test::build_phase(uvm_phase phase);
     axi_lite_seqc_slave = axi_lite_wr_sequence::type_id::create("axi_lite_seqc_slave", this);
     axi_lite_seqc_slave.axi_lite_seqc_config = axi_lite_seqc_config_slave;
 
-    // параметры теста
+    // test settings
     axi_lite_seqc_config.trans_numb = 500;
     axi_lite_seqc_config.max_addr_value = 128;
     axi_lite_seqc_config.min_addr_value = 0;

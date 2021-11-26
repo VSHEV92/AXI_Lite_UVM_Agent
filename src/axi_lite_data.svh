@@ -18,13 +18,12 @@ class axi_lite_data extends uvm_sequence_item;
     rand bit [31:0] data;
     rand bit [31:0] addr;
     rand bit [3:0] strb;
-    rand bit transaction_type; // тип транзакции (0 - Read, 1 - Write)
+    rand bit transaction_type; // (0 - Read, 1 - Write)
 
-    rand int unsigned clocks_before_addr; // число тактов до обмена адресом
-    rand int unsigned clocks_before_data; // число тактов до обмена данными
-    rand int unsigned clocks_before_resp; // число тактов до обмена ответом
+    rand int unsigned clocks_before_addr; // number of ticks before address handshake
+    rand int unsigned clocks_before_data; // number of ticks before data handshake
+    rand int unsigned clocks_before_resp; // number of ticks before response handshake
 
-    // ограничения на рандомизацию
     constraint addr_const {
         addr >= min_addr_value && addr <= (max_addr_value - 4) && (addr % 4) == 0;
     }

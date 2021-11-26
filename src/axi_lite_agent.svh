@@ -9,7 +9,9 @@ class axi_lite_agent extends uvm_agent;
 
     extern function void build_phase (uvm_phase phase);
     extern function void connect_phase (uvm_phase phase);
-    
+    extern task reset_phase (uvm_phase phase);
+
+    int unsigned aresetn_ticks = 10;
     agent_type_t agent_type = MASTER; 
 
     virtual axi_lite_if axi_lite_if_h;
@@ -22,6 +24,12 @@ class axi_lite_agent extends uvm_agent;
 endclass 
 
 // ---------------------------------------------------------------------
+task axi_lite_agent::reset_phase (uvm_phase phase);
+    phase.raise_objection(this);
+        axi_lite_if_h.reset(aresetn_ticks);
+    phase.drop_objection(this);
+endtask
+
 function void axi_lite_agent::build_phase (uvm_phase phase);
 
     axi_lite_sequencer_h = axi_lite_sequencer::type_id::create("axi_lite_sequencer_h", this); 

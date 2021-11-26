@@ -1,4 +1,4 @@
-// драйвер master
+// master driver
 class axi_lite_driver_master extends uvm_driver #(axi_lite_data);
     `uvm_component_utils(axi_lite_driver_master)
     function new (string name = "", uvm_component parent = null);
@@ -20,14 +20,14 @@ task axi_lite_driver_master::run_phase (uvm_phase phase);
         
         seq_item_port.get_next_item(trans);
 
-        if(trans.transaction_type) begin // транзакция записи
+        if(trans.transaction_type) begin // write transaction
             intf.master_write(trans.addr, trans.data, trans.strb, 3'b010, resp, trans.clocks_before_addr, trans.clocks_before_data, trans.clocks_before_resp);
             if(resp) 
                 `uvm_error(get_type_name(), $sformatf("Get bad response %2b", resp))
             else
                 `uvm_info(get_type_name(), $sformatf("Write %0h with strobe %4b to address %0h", trans.data, trans.strb, trans.addr), UVM_LOW)
         end 
-        else begin // транзакция чтения 
+        else begin // read transaction 
             intf.master_read(trans.addr, data, 3'b010, resp, trans.clocks_before_addr, trans.clocks_before_data);
             if(resp) 
                 `uvm_error(get_type_name(), $sformatf("Get bad response %2b", resp))
@@ -41,7 +41,7 @@ task axi_lite_driver_master::run_phase (uvm_phase phase);
 endtask
 
 
-// драйвер slave
+// slave driver
 class axi_lite_driver_slave extends uvm_driver #(axi_lite_data);
     `uvm_component_utils(axi_lite_driver_slave)
     function new (string name = "", uvm_component parent = null);
@@ -55,7 +55,7 @@ class axi_lite_driver_slave extends uvm_driver #(axi_lite_data);
     axi_lite_data trans;
 
     typedef bit [31:0] slave_data_t; 
-    slave_data_t slave_data [slave_data_t]; // ассоциативный массив для хранения данных
+    slave_data_t slave_data [slave_data_t]; // associative array from stored data
 
     logic [2:0] prot;
     logic transaction_type;
@@ -67,19 +67,18 @@ task axi_lite_driver_slave::run_phase (uvm_phase phase);
     forever begin
         seq_item_port.get_next_item(trans);
         
-        // ожидание адреса чтения или записи
+        // wait addr for write or read
         intf.slave_wait_addr(trans.addr, prot, transaction_type, trans.clocks_before_addr);
         
-        // транзакция записи
+        // write transaction
         if (transaction_type) begin
             `uvm_info(get_type_name(), $sformatf("Get write transaction to address %0h", trans.addr), UVM_LOW)
             intf.slave_wait_write_data(trans.data, trans.strb, 2'b00, trans.clocks_before_data, trans.clocks_before_resp);  
             
-            // создание новой записи в массиве, если такой элемент отсутствует
+            // create new element, if it's not exist
             if (!slave_data.exists(trans.addr))
                 slave_data[trans.addr] = '0;
-            // обновление данных в массиве   
-
+            // update associative array   
             for (int i = 0; i < 4; i++)
                 if (trans.strb[i])
                     slave_data[trans.addr][i*8 +: 8] = trans.data[i*8 +: 8];
@@ -87,10 +86,10 @@ task axi_lite_driver_slave::run_phase (uvm_phase phase);
             `uvm_info(get_type_name(), $sformatf("Write %0h with strobe %4b to address %0h", trans.data, trans.strb, trans.addr), UVM_LOW)        
         end
 
-        // транзакция чтения
+        // read transaction
         if (!transaction_type) begin
             `uvm_info(get_type_name(), $sformatf("Get read transaction from address %0h", trans.addr), UVM_LOW)
-            // создание новой записи в массиве, если такой элемент отсутствует
+            // create new element, if it's not exist
             if (!slave_data.exists(trans.addr))
                 slave_data[trans.addr] = '0;
 

@@ -9,7 +9,6 @@ module slave_tb #(string TEST_NAME) ();
     bit aclk = 0;
     axi_lite_if axi_lite_master (aclk);
     axi_lite_if axi_lite_slave (aclk);
-    aresetn_if aresetn (aclk);
     
     always 
         #2 aclk = ~aclk;

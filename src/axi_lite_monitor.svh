@@ -27,26 +27,26 @@ endfunction
 
 task axi_lite_monitor::run_phase (uvm_phase phase);
     fork
-        begin // мониторим интерфейс записи
+        begin // monitor for write transaction
             monitor_write();
         end
-        begin // мониторим интерфейс чтения
+        begin // monitor for read transaction
             monitor_read();
         end
     join 
 endtask
 
-// мониторинг интерфейса записи
+// get write transaction
 task axi_lite_monitor::monitor_write();
     forever begin
         wtrans = axi_lite_data::type_id::create("wtrans");
         wtrans.transaction_type = 1'b1;
         fork
-            begin // мониторим адрес
+            begin // get address
                 get_addr(wtrans.addr, wtrans.transaction_type);
                 `uvm_info(get_type_name(), $sformatf("Get write transaction address %0h", wtrans.addr), UVM_LOW)
             end
-            begin // мониторим данные
+            begin // get data
                 get_data(wtrans.data, wtrans.strb, wtrans.transaction_type);
                 `uvm_info(get_type_name(), $sformatf("Get write data %0h with strob %4b", wtrans.data, wtrans.strb), UVM_LOW)
             end
@@ -56,17 +56,17 @@ task axi_lite_monitor::monitor_write();
     end
 endtask
 
-// мониторинг интерфейса чтения
+// get read transaction
 task axi_lite_monitor::monitor_read();
     forever begin
         rtrans = axi_lite_data::type_id::create("rtrans");
         rtrans.transaction_type = 1'b0;
         fork
-            begin // мониторим адрес
+            begin // get address
                 get_addr(rtrans.addr, rtrans.transaction_type);
                 `uvm_info(get_type_name(), $sformatf("Get read transaction address %0h", rtrans.addr), UVM_LOW)
             end
-            begin // мониторим данные
+            begin // get data
                 get_data(rtrans.data, rtrans.strb, rtrans.transaction_type);
                 `uvm_info(get_type_name(), $sformatf("Get read data %0h", rtrans.data), UVM_LOW)
             end
@@ -76,16 +76,16 @@ task axi_lite_monitor::monitor_read();
     end
 endtask
 
-// получить адрес транзакции 
+// get address
 task axi_lite_monitor::get_addr (output bit [31:0] addr, input bit transaction_type);
     forever begin
         @(posedge intf.aclk)
-        // адрес записи
+        // write address
         if (intf.awvalid && intf.awready && transaction_type) begin
             addr = intf.awaddr;
             return;
         end
-        // адрес чтения
+        // read address
         if (intf.arvalid && intf.arready && !transaction_type) begin
             addr = intf.araddr;
             return;
@@ -93,17 +93,17 @@ task axi_lite_monitor::get_addr (output bit [31:0] addr, input bit transaction_t
     end
 endtask
 
-// получить данные транзакции
+// get data
 task axi_lite_monitor::get_data (output bit [31:0] data, output bit [3:0] strb, input bit transaction_type);
     forever begin
         @(posedge intf.aclk)
-        // адрес записи
+        // write data
         if (intf.wvalid && intf.wready && transaction_type) begin
             data = intf.wdata;
             strb = intf.wstrb;
             return;
         end
-        // адрес чтения
+        // read data
         if (intf.rvalid && intf.rready && !transaction_type) begin
             data = intf.rdata;
             strb = 4'b1111;
