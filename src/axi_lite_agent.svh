@@ -1,4 +1,7 @@
-typedef enum {MASTER, SLAVE} agent_type_t;
+`ifndef AGENT_TYPE_H
+	typedef enum {MASTER, SLAVE} agent_type_t;
+	`define AGENT_TYPE_H
+`endif
 
 class axi_lite_agent extends uvm_agent;
 
